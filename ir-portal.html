@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <title>校務研究視覺化平台</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-light: #dbeafe;
+      --bg: #f3f4f6;
+      --text: #111827;
+      --muted: #6b7280;
+      --card-bg: #ffffff;
+      --border: #e5e7eb;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top left, #e0f2fe 0, #f3f4f6 40%, #f9fafb 100%);
+      color: var(--text);
+      line-height: 1.6;
+      scroll-behavior: smooth;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* Header / Nav */
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(12px);
+      background: rgba(249, 250, 251, 0.9);
+      border-bottom: 1px solid rgba(229, 231, 235, 0.8);
+    }
+
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0.5rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .logo {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .logo-title {
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      color: var(--primary);
+    }
+
+    .logo-subtitle {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      justify-content: flex-end;
+    }
+
+    .nav-links a {
+      font-size: 0.85rem;
+      padding: 0.3rem 0.7rem;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      color: var(--muted);
+      transition: all 0.15s ease;
+      background: transparent;
+    }
+
+    .nav-links a:hover {
+      border-color: var(--primary-light);
+      background: var(--primary-light);
+      color: var(--primary);
+    }
+
+    /* Hero */
+
+    .hero {
+      max-width: 1100px;
+      margin: 1.5rem auto 1rem;
+      padding: 0 1.25rem;
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    .hero-main-title {
+      font-size: 1.9rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      margin-bottom: 0.4rem;
+      color: #0f172a;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.2rem 0.7rem;
+      border-radius: 999px;
+      background: #ecfdf5;
+      color: #15803d;
+      font-size: 0.8rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .hero-badge-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.25);
+    }
+
+    .hero-sub {
+      font-size: 0.95rem;
+      color: var(--muted);
+      max-width: 32rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin-top: 0.25rem;
+    }
+
+    .hero-tag {
+      font-size: 0.75rem;
+      padding: 0.15rem 0.55rem;
+      border-radius: 999px;
+      background: rgba(37, 99, 235, 0.06);
+      color: #1d4ed8;
+    }
+
+    .hero-panel {
+      border-radius: 1rem;
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(209, 213, 219, 0.9);
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .hero-panel-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #0f172a;
+      margin-bottom: 0.35rem;
+    }
+
+    .hero-metadata {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25rem 0.75rem;
+      margin-top: 0.4rem;
+      font-size: 0.8rem;
+    }
+
+    .hero-metadata span {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    /* Sections */
+
+    main {
+      max-width: 1100px;
+      margin: 0 auto 2.5rem;
+      padding: 0 1.25rem 1.5rem;
+    }
+
+    section {
+      margin-top: 1.75rem;
+      scroll-margin-top: 4.5rem;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .section-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .section-pill {
+      font-size: 0.8rem;
+      padding: 0.1rem 0.6rem;
+      border-radius: 999px;
+      background: var(--primary-light);
+      color: var(--primary);
+    }
+
+    .section-desc {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 0.85rem;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 0.9rem;
+      border: 1px solid var(--border);
+      padding: 0.8rem 0.9rem;
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.03);
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(37, 99, 235, 0.35);
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.09);
+    }
+
+    .card-tag {
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .card-title {
+      font-size: 0.96rem;
+      font-weight: 600;
+      color: #0f172a;
+    }
+
+    .card-meta {
+      font-size: 0.78rem;
+      color: var(--muted);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem 0.6rem;
+    }
+
+    .card-meta span {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .card-desc {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .card-footer {
+      margin-top: 0.15rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .card-btn {
+      font-size: 0.8rem;
+      padding: 0.35rem 0.7rem;
+      border-radius: 999px;
+      border: 1px solid rgba(37, 99, 235, 0.8);
+      background: rgba(37, 99, 235, 0.03);
+      color: #1d4ed8;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      transition: all 0.12s ease;
+    }
+
+    .card-btn:hover {
+      background: #2563eb;
+      color: #ffffff;
+    }
+
+    .card-label {
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    /* Footer */
+
+    footer {
+      max-width: 1100px;
+      margin: 0 auto 1.5rem;
+      padding: 0 1.25rem;
+      font-size: 0.75rem;
+      color: var(--muted);
+      border-top: 1px dashed rgba(209, 213, 219, 0.8);
+      padding-top: 0.75rem;
+    }
+
+    @media (max-width: 768px) {
+      .hero {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="nav-inner">
+      <div class="logo">
+        <span class="logo-title">IR Portal</span>
+        <span class="logo-subtitle">校務研究視覺化平台</span>
+      </div>
+      <nav class="nav-links">
+        <a href="#section-a">A 學習成效</a>
+        <a href="#section-b">B 畢業生調查</a>
+        <a href="#section-c">C 就學穩定</a>
+        <a href="#section-d">D 學生來源</a>
+        <a href="#section-e">E 其他分析</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div>
+      <div class="hero-badge">
+        <span class="hero-badge-dot"></span>
+        即時校務數據視覺化
+      </div>
+      <h1 class="hero-main-title">校務研究視覺化平台</h1>
+      <p class="hero-sub">
+        整合學習成效、畢業生流向、就學穩定、學生來源及相關計畫經費等關鍵指標，
+        透過 Power BI 與互動式儀表板，協助決策者快速掌握校務脈動。
+      </p>
+      <div class="hero-tags">
+        <span class="hero-tag">Learning Outcomes</span>
+        <span class="hero-tag">Graduate Survey</span>
+        <span class="hero-tag">Retention & Stability</span>
+        <span class="hero-tag">Student Recruitment</span>
+        <span class="hero-tag">Funding Analytics</span>
+      </div>
+    </div>
+    <aside class="hero-panel">
+      <div class="hero-panel-title">使用方式</div>
+      <p>點選下列各區塊卡片中的「開啟儀表板」，即可在新分頁開啟對應的 Power BI 或報表連結。</p>
+      <div class="hero-metadata">
+        <span>📊 視覺化工具：Power BI / 線上報表</span>
+        <span>🧭 結構：一頁式入口網站</span>
+      </div>
+    </aside>
+  </section>
+
+  <main>
+    <!-- A 學習成效分析 -->
+    <section id="section-a">
+      <div class="section-header">
+        <div class="section-title">
+          A 學習成效分析
+          <span class="section-pill">Learning Outcomes</span>
+        </div>
+        <p class="section-desc">
+          聚焦教學創新、跨域學習、校外實習與學生滿意度等面向，檢視教學品質與學習成效。
+        </p>
+      </div>
+      <div class="cards">
+        <a class="card" href="https://reurl.cc/ekRW77" target="_blank" rel="noopener noreferrer">
+          <div class="card-tag">A-1</div>
+          <div class="card-title">教學創新與學習成效分析</div>
+          <div class="card-meta">
+            <span>🗓 114.10.12</span>
+            <span>📂 學習成效</span>
+          </div>
+          <p class="card-desc">檢視教學創新作法與學生學習成果指標之關聯，作為課程精進依據。</p>
+          <div class="card-footer">
+            <span class="card-label">Power BI / 線上報表</span>
+            <span class="card-btn">開啟儀表板 ➜</span>
+          </div>
+        </a>
+
+        <a class="card" href="https://reurl.cc/Mjxx8X" target="_blank" rel="noopener noreferrer">
+          <div class="card-tag">A-2</div>
+          <div class="card-title">跨領域學分學程推動成效分析</div>
+          <div class="card-meta">
+            <span>🗓 114.10.20</span>
+            <span>📂 跨領域學習</span>
+          </div>
+          <p class="card-desc">掌握跨領域學程選課情形與完成率，評估課程設計與推動策略。</p>
+          <div class="card-footer">
+            <span class="card-label">跨域學程成效</span>
+            <span class="card-btn">開啟儀表板 ➜</span>
+          </div>
+        </a>
+
+        <a class="card" href="https://reurl.cc/yAplvD" target="_blank" rel="noopener noreferrer">
+          <div class="card-tag">A-3</div>
+          <div class="card-title">跨領域學習成效問卷調查</div>
+          <div class="card-meta">
+            <span>🗓 114.10.15</span>
+            <span>📊 問卷分析</span>
+          </div>
+          <p class="card-desc">彙整學生對跨領域學習之動機、困難與收穫，作為後續課程調整依據。</p>
+          <div class="card-footer">
+            <span class="card-label">學生回饋</span>
+            <span class="card-btn">開啟儀表板 ➜</span>
+          </div>
+        </a>
+
+        <a class="card" href="https://reurl.cc/zKZygk" target="_blank" rel="noopener noreferrer">
+          <div class="card-tag">A-4</div>
+          <div class="card-title">校外實習回饋意見調查分析</div>
+          <div class="card-meta">
+            <span>🗓 114.11.16</span>
+            <span>🏢 校外實習</span>
+          </div>
+          <p class="card-desc">整合實習單位與學生回饋，檢視實習品質與職場接軌程度。</p>
+          <div class="card-footer">
+            <span class="card-label">實習成效</span>
+            <span class="card-btn">開啟儀表板 ➜</span>
+          </div>
+        </a>
+
+        <a class="card" href="https://reurl.cc/bVoo9v" target="_blank" rel="noopener noreferrer">
+          <div class="card-tag">A-5</div>
+          <div class="card-title">學習成效與滿意度調查分析</div>
+          <div class="card-meta">
+            <span>🗓 113.06.19</span>
+            <span>📊 滿意度</span>
+          </div>
+          <p class="card-desc">整體檢視學生學習成效與課程滿意度，追蹤年度變化趨勢。</p>
+          <div class="card-footer">
+            <span class="card-label">整體學習成效</span>
+            <span class="card-btn">開啟儀表板 ➜</span>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- B 畢業生調查分析 -->
+    <section id="section-b">
+      <div class="section-header">
+        <div class="section-title">
+          B 畢業生調查分析
+          <span class="section-pill">Graduate Survey</span>
+        </div>
+        <p class="section-desc">
+          透過雇主滿意度、畢業生流向與薪資分析，掌握學生畢業後的就業競爭力與產業評價。
+        </p>
+      </div>
+      <div class="cards">
+        <a class="card" href="https://reurl.cc/yv8yZ8" target="_blank" rel="noopener noreferrer">
+          <div class="card-tag">B-1</div>
+          <div class="card-title">雇主滿意度調查分析</div>
+          <div class="card-meta">
+            <span>🗓 113.10.21・114.11.10</span>
+            <span>🏭 雇主回饋</span>
+          </div>
+          <p class="card-desc">彙整各年度雇主對本校畢業生職能表現與工作態度之整體評價。</p>
+          <div class="card-footer">
+            <span class="card-label">用人單位觀點</span>
+            <span class="card-btn">開啟儀表板 ➜</span>
+          </div>
+        </a>
+
+        <a class="card" href="https://reurl.cc/Kdk2zj" target="_blank" rel="noopener noreferrer">
+          <div class="card-tag">B-2</div>
+          <div class="card-title">畢業生流向調查分析</div>
+          <div class="card-meta">
+            <span>🗓 114.02.11</span>
+            <span>📍 流向分析</span>
+          </div>
+          <p class="card-desc">分析畢業生升學、就業、服役及其他流向分布，觀察不同系所差異。</p>
+          <div class="card-footer">
+            <span class="card-label">升學／就業比</span>
+            <span class="card-btn">開啟儀表板 ➜</span>
+          </div>
+        </a>
+
+        <a class="card" href="https://reurl.cc/z1zNX0" target="_blank" rel="noopener noreferrer">
+          <div class="card-tag">B-3</div>
+          <div class="card-title">畢業生就業薪資與流向分析</div>
+          <div class="card-meta">
+            <span>🗓 114.11.12</span>
+            <span>💰 薪資 & 產業別</span>
+          </div>
+          <p class="card-desc">結合薪資區間與就業產業類別，檢視各學院與系所在勞動市場之表現。</p>
+          <div class="card-footer">
+            <span class="card-label">薪資結構</span>
+            <span class="card-btn">開啟儀表板 ➜</span>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- C 就學穩定分析 -->
+    <section id="section-c">
+      <div class="section-header">
+        <div class="section-title">
+          C 就學穩定分析
+          <span class="section-pill">Retention & Stability</span>
+        </div>
+        <p class="section-desc">
+          從全國穩定率對標、休退學情形與輔導紀錄三個面向，掌握學生就學穩定狀況。
+        </p>
+      </div>
+      <div class="cards">
+        <a class="card" href="https://app.powerbi.com/Redirect?action=OpenApp&appId=62d29955-cded-43d3-9f08-f391124c18b6&ctid=a4844c4d-fcd7-42ba-848b-97182a3d4969&experience=power-bi" target="_blank" rel="noopener noreferrer">
+          <div class="card-tag">C-1～C-3</div>
+          <div class="card-title">就學穩定綜合分析</div>
+          <div class="card-meta">
+            <span>📊 穩定率 / 休退學 / 輔導</span>
+            <span>🗺 全校 & 全國對標</span>
+          </div>
+          <p class="card-desc">
+            整合：
+            1. 全國大專校院穩定率分析<br />
+            2. 全校休退學分析<br />
+            3. 休退學輔導紀錄分析
+          </p>
+          <div class="card-footer">
+            <span class="card-label">Retention Dashboard</span>
+            <span class="card-btn">開啟儀表板 ➜</span>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- D 學生來源分析 -->
+    <section id="section-d">
+      <div class="section-header">
+        <div class="section-title">
+          D 學生來源分析
+          <span class="section-pill">Student Recruitment</span>
+        </div>
+        <p class="section-desc">
+          聚焦日四技招生來源與入學組成，分析登記分發結果與本校新生來源結構。
+        </p>
+      </div>
+      <div class="cards">
+        <a class="card" href="https://app.powerbi.com/Redirect?action=OpenApp&appId=dc8843a1-855f-4f3e-83c3-1035a23c320d&ctid=a4844c4d-fcd7-42ba-848b-97182a3d4969&experience=power-bi" target="_blank" rel="noopener noreferrer">
+          <div class="card-tag">D-1</div>
+          <div class="card-title">日四技登記分發入學分析</div>
+          <div class="card-meta">
+            <span>🧮 登記分發</span>
+            <span>📍 來源結構</span>
+          </div>
+          <p class="card-desc">分析日四技登記分發各系所入學情形與名額使用狀況。</p>
+          <div class="card-footer">
+            <span class="card-label">招生組成</span>
+            <span class="card-btn">開啟儀表板 ➜</span>
+          </div>
+        </a>
+
+        <a class="card" href="https://app.powerbi.com/groups/me/apps/95a487c1-8d6a-4ace-bc57-dff2e68b52e2/dashboards/0bd85d18-55dc-4097-892c-76de32188407?ctid=a4844c4d-fcd7-42ba-848b-97182a3d4969&experience=power-bi" target="_blank" rel="noopener noreferrer">
+          <div class="card-tag">D-2</div>
+          <div class="card-title">本校日四技新生來源分析</div>
+          <div class="card-meta">
+            <span>🧭 區域 / 校別</span>
+            <span>🎓 新生結構</span>
+          </div>
+          <p class="card-desc">從畢業高中、縣市與科別等面向，檢視新生來源分布與變化。</p>
+          <div class="card-footer">
+            <span class="card-label">Recruitment Dashboard</span>
+            <span class="card-btn">開啟儀表板 ➜</span>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- E 其他 -->
+    <section id="section-e">
+      <div class="section-header">
+        <div class="section-title">
+          E 其他分析
+          <span class="section-pill">Others</span>
+        </div>
+        <p class="section-desc">
+          包含修課學分分析、高教深耕計畫經費與獎助金配置，以及校務資訊檢索等輔助工具。
+        </p>
+      </div>
+      <div class="cards">
+        <a class="card" href="https://reurl.cc/nNrYld" target="_blank" rel="noopener noreferrer">
+          <div class="card-tag">E-1</div>
+          <div class="card-title">修課人數暨學分學時分析</div>
+          <div class="card-meta">
+            <span>📚 修課結構</span>
+            <span>⏱ 學分學時</span>
+          </div>
+          <p class="card-desc">統整各學期修課人數、學分與學時，掌握課程開課量與修課負擔。</p>
+          <div class="card-footer">
+            <span class="card-label">教學資源配置</span>
+            <span class="card-btn">開啟報表 ➜</span>
+          </div>
+        </a>
+
+        <a class="card" href="https://reurl.cc/YENv5a" target="_blank" rel="noopener noreferrer">
+          <div class="card-tag">E-2</div>
+          <div class="card-title">高等教育深耕計畫（第一部分主冊）經費分析</div>
+          <div class="card-meta">
+            <span>💼 經費配置</span>
+            <span>🎯 計畫面向</span>
+          </div>
+          <p class="card-desc">分析深耕計畫經費於各子計畫與執行面向之分布與變化趨勢。</p>
+          <div class="card-footer">
+            <span class="card-label">Budget Analytics</span>
+            <span class="card-btn">開啟報表 ➜</span>
+          </div>
+        </a>
+
+        <a class="card" href="https://reurl.cc/dqrzak" target="_blank" rel="noopener noreferrer">
+          <div class="card-tag">E-3</div>
+          <div class="card-title">高教深耕獎助金分析（ing）</div>
+          <div class="card-meta">
+            <span>🧪 WIP</span>
+            <span>💰 獎助金</span>
+          </div>
+          <p class="card-desc">持續建置中，用以分析獎助金配置與成效指標。</p>
+          <div class="card-footer">
+            <span class="card-label">In Progress</span>
+            <span class="card-btn">開啟報表 ➜</span>
+          </div>
+        </a>
+
+        <a class="card" href="https://reurl.cc/bmRbrr" target="_blank" rel="noopener noreferrer">
+          <div class="card-tag">E-4</div>
+          <div class="card-title">校務資訊檢索平台</div>
+          <div class="card-meta">
+            <span>🔍 資訊檢索</span>
+            <span>📂 校務資料</span>
+          </div>
+          <p class="card-desc">提供跨資料表的校務資訊查詢入口，方便快速取得所需統計資料。</p>
+          <div class="card-footer">
+            <span class="card-label">Search Portal</span>
+            <span class="card-btn">開啟平台 ➜</span>
+          </div>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    本頁為「校務研究視覺化平台」一頁式入口，實際數據與圖表內容以各 Power BI 儀表板與線上報表為準。
+  </footer>
+</body>
+</html>
