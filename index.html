@@ -208,14 +208,15 @@
       justify-content: space-between;
       gap: 0.5rem;
       margin-bottom: 0.75rem;
+	  flex-wrap: wrap;
     }
 
     .section-title {
       font-size: 1.1rem;
       font-weight: 600;
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: nowrap;
     }
 
     .section-pill {
@@ -655,7 +656,7 @@
           <p class="card-desc">統整各學期修課人數、學分與學時，掌握課程開課量與修課負擔。</p>
           <div class="card-footer">
             <span class="card-label">教學資源配置</span>
-            <span class="card-btn">開啟報表 ➜</span>
+            <span class="card-btn">開啟儀表板 ➜</span>
           </div>
         </a>
 
@@ -669,7 +670,7 @@
           <p class="card-desc">分析深耕計畫經費於各子計畫與執行面向之分布與變化趨勢。</p>
           <div class="card-footer">
             <span class="card-label">Budget Analytics</span>
-            <span class="card-btn">開啟報表 ➜</span>
+            <span class="card-btn">開啟儀表板 ➜</span>
           </div>
         </a>
 
@@ -695,3 +696,4 @@
   </footer>
 </body>
 </html>
+
